@@ -1,1 +1,1 @@
-worker: python reputationbot.py
+worker: python bot.py

@@ -11,7 +11,6 @@ user_search_value = "undef"
 found = "unsp"
 client = discord.Client()
 count = 0
-TOKEN = "NTIzNzE0Mjc0MzMwNDExMDE4.Dvdnkg.iU7JmuJN6rAYXnZjS4l-gxYJ4fA"
 words = "undef"
 authorizedAuthors = ['christmasy eddyzow#9988','Kyle!#2949']
 points = 123

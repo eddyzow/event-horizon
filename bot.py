@@ -16,6 +16,9 @@ authorizedAuthors = ['christmasy eddyzow#9988','Kyle!#2949']
 points = 123
 repAdder2 = 0
 @client.event
+async def on_message(message):
+    await client.send_message(message.channel, 'This is a test')
+@client.event
 async def on_member_join(member):
     now = (str(datetime.now()))
     now1 =(str(member.created_at))

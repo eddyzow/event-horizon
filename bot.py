@@ -1,10 +1,13 @@
 import discord
-from discord.ext import commands
-from discord.ext.commands import Bot
+from datetime import datetime
+import math
+from math import floor
+import urllib
+from collections import Counter
+import time
+from discord.utils import get
 import asyncio
 import random
-import requests
-import os
 repAdder = 0
 line = "unsp"
 user_search_value = "undef"

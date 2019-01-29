@@ -18,7 +18,7 @@ points = 123
 repAdder2 = 0
 @client.event
 async def on_message(message):
-    await client.change_presence(game=discord.Game(name='Kicked'+str(kicked)+' alt accounts!'))
+    await client.change_presence(game=discord.Game(name='Kicked '+str(kicked)+' alt accounts!'))
     try:
         if str(message.mentions[0].id) == '539559376277471291':
             await client.send_message(message.channel, 'Hey! Who pinged me?')

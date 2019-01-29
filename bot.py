@@ -17,6 +17,7 @@ points = 123
 repAdder2 = 0
 @client.event
 async def on_member_join(member):
+    global word
     now = (str(datetime.now()))
     now1 =(str(member.created_at))
     now = now.split(' ')

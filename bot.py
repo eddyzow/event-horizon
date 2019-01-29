@@ -2,16 +2,12 @@ import discord
 from datetime import datetime
 import math
 from math import floor
-import urllib
-from collections import Counter
 import time
-from discord.utils import get
 import asyncio
 import random
 repAdder = 0
 line = "unsp"
 user_search_value = "undef"
-found = "unsp"
 client = discord.Client()
 count = 0
 words = "undef"

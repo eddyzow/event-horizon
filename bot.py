@@ -18,7 +18,7 @@ repAdder2 = 0
 @client.event
 async def on_message(message):
     try:
-        if str(message.mentions[0].id) = '539559376277471291':
+        if str(message.mentions[0].id) == '539559376277471291':
             await client.send_message(message.channel, 'Hey! Who pinged me?')
     except:
         pass

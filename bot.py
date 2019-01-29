@@ -48,7 +48,7 @@ async def on_member_join(member):
                         count += 1
                     if word == "-" + str(user_search_value):
                         count -= 1
-                word = word.replace('!', '')
+                    word = word.replace('!', '')
                 print(count)
         user = member
         if count > 19:

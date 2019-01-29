@@ -121,6 +121,7 @@ async def on_member_join(member):
             await client.send_message(member, 'Your account has been detected to be an alt. If this is in error please wait a couple days and try to join again.')
         except:
             pass
+        print(str(member)+' just got kicked!')
         await client.kick(banner)
 
     

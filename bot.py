@@ -18,6 +18,7 @@ points = 123
 repAdder2 = 0
 @client.event
 async def on_message(message):
+    global kicked
     await client.change_presence(game=discord.Game(name='Kicked '+str(kicked)+' alt accounts!'))
     try:
         if str(message.mentions[0].id) == '539559376277471291':
@@ -26,6 +27,7 @@ async def on_message(message):
         pass
 @client.event
 async def on_member_join(member):
+    global kicked
     global word
     now = (str(datetime.now()))
     now1 =(str(member.created_at))

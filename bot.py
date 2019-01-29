@@ -11,12 +11,14 @@ line = "unsp"
 user_search_value = "undef"
 client = discord.Client()
 count = 0
+kicked = 0
 words = "undef"
 authorizedAuthors = ['christmasy eddyzow#9988','Kyle!#2949']
 points = 123
 repAdder2 = 0
 @client.event
 async def on_message(message):
+    await client.change_presence(game=discord.Game(name='Kicked'+kicked+' alt accounts!'))
     try:
         if str(message.mentions[0].id) == '539559376277471291':
             await client.send_message(message.channel, 'Hey! Who pinged me?')
@@ -44,6 +46,7 @@ async def on_member_join(member):
         except:
             pass
         print(str(member)+' just got kicked!')
+        kicked += 1
         await client.kick(banner)
 
     

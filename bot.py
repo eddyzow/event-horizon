@@ -1,4 +1,4 @@
- import discord
+import discord
 from datetime import datetime
 import math
 from math import floor

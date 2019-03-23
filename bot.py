@@ -1,4 +1,4 @@
-import discord
+ import discord
 from datetime import datetime
 import math
 from math import floor
@@ -13,7 +13,7 @@ client = discord.Client()
 count = 0
 kicked = 0
 words = "undef"
-authorizedAuthors = ['christmasy eddyzow#9988','Kyle!#2949']
+authorizedAuthors = ['eddyzow#0001','Kyle!#2949']
 points = 123
 repAdder2 = 0
 @client.event

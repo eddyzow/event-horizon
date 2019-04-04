@@ -29,9 +29,10 @@ async def on_message(message):
     if message.content.startswith('s/allow '):
         authorizedAuthors = ['eddyzow#0001', 'Kyle!#2949', 'NewJerichoMan#8571', 'PopeRobXXIII#2197', 'Cameron#7335', 'Tom#2603', 'Sakaya Rito#4853', 'Mtnz#3555', 'moneill6720#7862', 'MrCandy#2119']
         if str(message.author) in authorizedAuthors:
-	    param, term = message.content.split('s/allow ')
-	    allowedUsers.append(str(term)
-	    await client.send_message(message.channel, term+' has been allowed!')
+	        param, term = message.content.split('s/allow ')
+	        allowedUsers.append(str(term)
+	        await client.send_message(message.channel, term+' has been allowed!')
+	
             
 @client.event
 async def on_member_join(member):

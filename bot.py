@@ -51,7 +51,7 @@ async def on_member_join(member):
     if dayDiff != 0 and dayDiff != 1 and dayDiff != 2 and dayDiff != 2 and dayDiff != 3 and dayDiff != 4 and dayDiff != 5 and dayDiff != 6 and dayDiff != 7 and dayDiff != 8 and dayDiff != 9 and dayDiff != 10 and dayDiff != 11 and dayDiff != 12 and dayDiff != 13 and dayDiff != 14 and dayDiff != 73 and dayDiff != 74 and dayDiff != 75 and dayDiff != 76 and dayDiff != 77 and dayDiff != 78 and dayDiff != 79 and dayDiff != 80 and dayDiff != 81 and dayDiff != 82 and dayDiff != 83 and dayDiff != 84 and dayDiff != 85 and dayDiff != 86 and dayDiff != 87 and dayDiff != 88 and dayDiff != 89 and dayDiff != 8883 and dayDiff != 8882 and dayDiff != 8881 and dayDiff != 8880 and dayDiff != 8879 and dayDiff != 8878 and dayDiff != 8877 and dayDiff != 8876 and dayDiff != 8875 and dayDiff != 8874 and dayDiff != 8873 and dayDiff != 8872 and dayDiff != 8871 and dayDiff != 8870:
         print(str(member)+' just joined!')
     elif str(member) in allowedUsers:
-	print(str(member)+' was allowed into the server')
+	    print(str(member)+' was allowed into the server')
     else:
         banner = member
         try:

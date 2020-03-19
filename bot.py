@@ -30,17 +30,17 @@ async def on_message(message):
     if message.content.startswith('s/allow '):
         authorizedAuthors = ['eddyzow#0001', 'Kyle!#2949', 'NewJerichoMan#8571', 'PopeRobXXIII#2197', 'Cameron#7335', 'Tom#2603', 'Sakaya Rito#4853', 'Mtnz#3555', 'moneill6720#7862', 'MrCandy#2119']
         if str(message.author) in authorizedAuthors:
-		if currentlyAllowing == 0:
-			currentlyAllowing = 1
-			param, term = message.content.split('s/allow ')
-			allowedUsers.append(str(term))
-			await client.send_message(message.channel, term+' has been allowed! They will be removed again in 1 minute. Please let them join now.')
-			time.sleep(60)
-			allowedUsers.remove(str(term)
-			currentlyAllowing = 0
-			await client.send_message(message.channel, str(term)+' has been re-denied! To add them again, just re-type s/allow.'
-		else:
-			await client.send_message(message.channel, "Can't do this now, "+str(term)+" is being allowed currently")
+		    if currentlyAllowing == 0:
+			    currentlyAllowing = 1
+			    param, term = message.content.split('s/allow ')
+			    allowedUsers.append(str(term))
+			    await client.send_message(message.channel, term+' has been allowed! They will be removed again in 1 minute. Please let them join now.')
+			    time.sleep(60)
+			    allowedUsers.remove(str(term)
+			    currentlyAllowing = 0
+			    await client.send_message(message.channel, str(term)+' has been re-denied! To add them again, just re-type s/allow.'
+		    else:
+			    await client.send_message(message.channel, "Can't do this now, "+str(term)+" is being allowed currently")
             
 @client.event
 async def on_member_join(member):

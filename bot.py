@@ -34,7 +34,7 @@ async def on_message(message):
             await client.send_message(message.channel, term+' has been allowed! They will be removed again in 1 minute. Please let them join now.')
             time.sleep(60)
             allowedUsers.remove(str(term)
-            await client.send_message(message.channel, str(term)+' has been re-denied! To add them again, just re-type s/allow.')
+            await client.send_message(message.channel, str(term)+' has been re-denied! To add them again, just re-type the command.')
             
 @client.event
 async def on_member_join(member):

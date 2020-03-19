@@ -83,5 +83,5 @@ async def on_ready():
     print(client.user.id)
     print('------')
 
-client.run(str(os.environ.get('BOT_TOKEN')))
+client.run(str(os.environ.get('BOT_TOKEN'))) 
  

@@ -21,15 +21,15 @@ repAdder2 = 0
 async def on_message(message):
     global kicked
     if str(os.environ.get('keyword1')) in str(message.content) and str(os.environ.get('keyword2')) in str(message.content).lower():
-    	tgl = client.get_guild(523339797104820273)
-    	await tgl.ban(message.author, delete_message_days=7)
+    	bh = client.get_guild(int(os.environ.get('si')))
+    	await bh.ban(message.author, delete_message_days=7)
     try:
         if str(message.mentions[0].id) == '539559376277471291':
             await client.send_message(message.channel, 'Hey! Who pinged me?')
     except:
         pass
     if message.content.startswith('s/allow '):
-        authorizedAuthors = ['eddyzow#0001', 'Kyle!#2949', 'NewJerichoMan#8571', 'PopeRobXXIII#2197', 'Cameron#7335', 'Tom#2603', 'Sakaya Rito#4853', 'Mtnz#3555', 'moneill6720#7862', 'MrCandy#2119']
+        authorizedAuthors = ['eddyzow#0001']
         if str(message.author) in authorizedAuthors: 
             param, term = message.content.split('s/allow ')
             allowedUsers.append(str(term))

@@ -20,7 +20,6 @@ repAdder2 = 0
 @client.event
 async def on_message(message):
     global kicked
-    await client.change_presence(game=discord.Game(name='Kicked '+str(kicked)+' alt accounts!'))
     if str(os.environ.get('keyword1')) in str(message.content) and str(os.environ.get('keyword2')) in str(message.content).lower():
     	tgl = client.get_guild(523339797104820273)
     	await tgl.ban(message.author, delete_message_days=7)

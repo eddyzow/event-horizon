@@ -17,6 +17,8 @@ words = "undef"
 authorizedAuthors = ['eddyzow#0001','Kyle!#2949']
 points = 123
 repAdder2 = 0
+print(discord.version_info)
+print("Discord.py Version")
 @client.event
 async def on_message(message):
     global kicked

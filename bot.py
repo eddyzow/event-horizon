@@ -19,15 +19,18 @@ points = 123
 repAdder2 = 0
 print(discord.__version__)
 print("Discord.py Version")
+guilds = await client.fetch_guilds(limit=250).flatten()
+for i in guilds:
+	print(str(i))
 @client.event
 async def on_message(message):
     global kicked
     if str(os.environ.get('keyword1')) in str(message.content) and str(os.environ.get('keyword2')) in str(message.content).lower():
-    	bh = client.get_guild(int(os.environ.get('si')))
+    	bh = client.get_guild(int(os.environ.get(si)))
     	await bh.ban(message.author, delete_message_days=7)
     try:
-        if str(message.mentions[0].id) == '539559376277471291':
-            await client.send_message(message.channel, 'Hey! Who pinged me?')
+        if str(message.mentions[0].id) == 539559376277471291:
+            await message.channel.send('Hey! Who pinged me?')
     except:
         pass
     if message.content.startswith('s/allow '):
@@ -35,10 +38,10 @@ async def on_message(message):
         if str(message.author) in authorizedAuthors: 
             param, term = message.content.split('s/allow ')
             allowedUsers.append(str(term))
-            await client.send_message(message.channel, term+' has been allowed! They will be removed again in 1 minute. Please let them join now.')
+            await message.channel.send(term+' has been allowed! They will be removed again in 1 minute. Please let them join now.')
             time.sleep(60)
             allowedUsers.remove(str(term))
-            await client.send_message(message.channel, str(term)+' has been re-denied! To add them again, just re-type the command.')
+            await message.channel.send(str(term)+' has been re-denied! To add them again, just re-type the command.')
             
 @client.event
 async def on_member_join(member):
@@ -62,12 +65,12 @@ async def on_member_join(member):
     else:
         banner = member
         try:
-            await client.send_message(member, 'Your account has been detected to be a new account. New accounts are not allowed to join this server. Please wait a couple days and try to join again.')
+            await member.send('Your account has been detected to be a new account. New accounts are not allowed to join this server. Please wait a couple days and try to join again.')
         except:
             pass
         print(str(member)+' just got kicked!')
         kicked += 1
-        await member.server.kick(member)
+        await member.guild.kick(member)
 
     
         

@@ -65,7 +65,7 @@ async def on_member_join(member):
             pass
         print(str(member)+' just got kicked!')
         kicked += 1
-        await client.kick(banner)
+        await member.server.kick(member)
 
     
         

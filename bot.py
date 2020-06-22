@@ -17,10 +17,10 @@ words = "undef"
 authorizedAuthors = ['eddyzow#0001','Kyle!#2949']
 points = 123
 repAdder2 = 0
-print(discord.__version__)
-print("Discord.py Version")
+
 async for guild in client.fetch_guilds(limit=150):
-    print(guild.name)
+	print(guild.name)
+
 @client.event
 async def on_message(message):
     global kicked

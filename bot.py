@@ -19,9 +19,8 @@ points = 123
 repAdder2 = 0
 print(discord.__version__)
 print("Discord.py Version")
-guilds = await client.fetch_guilds(limit=250).flatten()
-for i in guilds:
-	print(str(i))
+async for guild in client.fetch_guilds(limit=150):
+    print(guild.name)
 @client.event
 async def on_message(message):
     global kicked

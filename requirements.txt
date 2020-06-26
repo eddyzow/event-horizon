@@ -5,5 +5,3 @@ asyncio
 pymongo
 MongoClient
 datetime
-timezone
-timedelta

@@ -276,7 +276,7 @@ async def on_message(message):
                 "\nh!tempban - `Usage: h!tempban <@user> <time> <reason>`\n- For time, use a number followed by suffix s, m, h, or d, meaning second, minute, hour, and day. Tempbans are limited to 30 days."
                 "\nh!ban - `Usage: h!ban <@user> <reason>`\n- To temp-ban someone, see `h!tempban`."
                 "\nh!unban - `Usage: h!unban <@user>`"
-                "\nh!kick - `Usage: h!kick <@user> <reason>"
+                "\nh!kick - `Usage: h!kick <@user> <reason>`"
                 "\nh!unmute - `Usage: h!unmute <@user>`"
                 "\nh!warnings - `Usage: h!warnings <@user>`"
                 "\nh!purge - `Usage: h!purge <number>`\n- Event Horizon will not purge more than 1,000 messages per command. Messages must be younger than 14 days."

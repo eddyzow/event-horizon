@@ -269,31 +269,7 @@ async def on_message(message):
             await message.channel.send("Help support the development and running of Event Horizon. Patreon: https://www.patreon.com/eddyzow")
         if message.content == "h!help":
             await message.add_reaction("👍")
-            embed = discord.Embed(title="**Commands (Moderation):**", description="Until a website can be maintained for easy documentation, you can find all commands here.\n"
-                "\nh!warn - `Usage: h!warn <@user> <reason>`"
-                "\nh!tempmute - `Usage: h!tempmute <@user> <time> <reason>`\n- For time, use a number followed by suffix s, m, h, or d, meaning second, minute, hour, and day. Tempmutes are limited to 30 days. If a Muted role does not exist in the server, Event Horizon will create one."
-                "\nh!mute - `Usage: h!mute <@user> <reason>`\n- If a Muted role does not exist in the server, Event Horizon will create one."
-                "\nh!tempban - `Usage: h!tempban <@user> <time> <reason>`\n- For time, use a number followed by suffix s, m, h, or d, meaning second, minute, hour, and day. Tempbans are limited to 30 days."
-                "\nh!ban - `Usage: h!ban <@user> <reason>`\n- To temp-ban someone, see `h!tempban`."
-                "\nh!unban - `Usage: h!unban <@user>`"
-                "\nh!kick - `Usage: h!kick <@user> <reason>`"
-                "\nh!unmute - `Usage: h!unmute <@user>`"
-                "\nh!warnings - `Usage: h!warnings <@user>`"
-                "\nh!purge - `Usage: h!purge <number>`\n- Event Horizon will not purge more than 1,000 messages per command. Messages must be younger than 14 days."
-                "\nh!lock - `Usage: h!lock <role name>`\n- Locks down channel. If no role name is provided, the `@everyone` role will be used."
-                "\nh!unlock - `Usage: h!unlock <role name>`\n- Unlocks channel. If no role name is provided, the `@everyone` role will be used."
-                "\nh!modlogs - `Usage: h!modlogs <@user>`\n- Shows all modlogs from a specified user."
-                "\nh!modroles - `Usage: h!modroles <role name to add/remove>`\n- Edit roles that are allowed to use moderation commands. Typing `h!modroles` will return the list of modroles."
-                "\nh!case - `Usage: h!case <number>`\n- Gives information about a specified case."
-                "\nh!modchannel - `Usage: h!modchannel <#channel>`\n- Sets channel where all moderation actions will be logged. To set to None, use `h!clearmodchannel`.",color=random.randint(0, 0xffffff))
-            await message.author.send(embed=embed)
-            embed = discord.Embed(title="**Commands (Other):**", description=
-            "h!donate - Donate to the development of this bot!"
-            "\nh!topic - `Usage: h!topic <topic>`\n- Changes the topic of the channel command is executed in."
-            "\nh!uptime - View uptime of the bot."
-            "\nh!membercount - View server's member count."
-            "\nh!poll - `Usage: h!poll <poll>`\n- Sends a poll."
-            "\nh!changelog - View changelog of the last deployment of Event Horizon.",color=random.randint(0, 0xffffff))
+            embed = discord.Embed(title="**Commands**", description="To view a full list of commands, visit Event Horizon's website.\nhttps://eddyzhao828.wixsite.com/event-horizon/",color=random.randint(0, 0xffffff))
             await message.author.send(embed=embed)
         if message.content == "h!changelog":
             embed=discord.Embed(title="**Changelog**", description="v1.0.0 Changelog (6/26/2020)\n\n**Initial deployment. New commands added in this release:**"

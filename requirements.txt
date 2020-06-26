@@ -1,5 +1,9 @@
-discord
+os
+discord.py==1.2.5
+random
 asyncio
-Pymoe
-youtube_dl
-pip
+pymongo
+MongoClient
+datetime
+timezone
+timedelta

@@ -3,5 +3,4 @@ discord.py==1.2.5
 random
 asyncio
 pymongo
-MongoClient
 datetime

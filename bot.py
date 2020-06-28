@@ -1080,7 +1080,7 @@ async def on_guild_join(guild):
         resulte=0
         teste = 0
         introembed = discord.Embed(title="Thank you for adding Event Horizon!", description="This is a multi-purpose bot with moderation and more!\nIf you have added Event Horizon to your server for the first time, admin commands are reserved to any user in the server who has the administrator property. However, you can change this. Other settings can be found in the help menu. \n**The prefix for this bot is: h!**\n To get started, type `h!help`!\n Again, thank you for adding the bot!")
-        introembed.set_footer(text="Made with 🔨 by eddyzow#0001 | Event Horizon v1.0.0")
+        introembed.set_footer(text="Made with 🔨 by eddyzow#0001 | Event Horizon v1.0.2")
         while resulte == 0:
             try:
                 await guild.channels[teste].send(embed=introembed)

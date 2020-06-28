@@ -14,7 +14,6 @@ unixTime = round((datetime.now(timezone.utc) + timedelta(days=0)).timestamp())
 # Automod (Mention spam, discord invites)
 # Remind me
 # Reaction Role
-# VC Role
 # Image Search and Google Search
 
 def checkModRoles(message):
@@ -55,9 +54,9 @@ async def postCase(message, result):
             embed=discord.Embed(title="Case "+str(result['case-id']), description="ID: "+str(result['_id'])+"\nCase Type: "+str(result['case-type'])+"\nUser: <@"+str(result['user'])+">\nReason: "+str(result['reason'])+"\nModerator: "+str(result['moderator'])+"\n")
         await modchannel.send(embed=embed)
 
-async def automodPost(message, post):
+async def automodPost(guild, post):
     preferences = cluster["preferences"]
-    preference = preferences[str(message.channel.guild.id)]
+    preference = preferences[str(guild.id)]
     j = ""
     results = preference.find({"mod-channel": {"$exists": False}})
     if results.count() == 0:
@@ -110,7 +109,6 @@ async def on_message(message):
         elif message.content.startswith("h!lock "):
             if checkModRoles(message=message) == True:
                 param, warnList = message.content.split("h!lock ", 1)
-                print(warnList)
                 role = discord.utils.get(message.channel.guild.roles, name=warnList)
                 if role == None:
                     raise Exception('Invalid role name.')
@@ -133,7 +131,6 @@ async def on_message(message):
         elif message.content.startswith("h!unlock "):
             if checkModRoles(message=message) == True:
                 param, warnList = message.content.split("h!unlock ", 1)
-                print(warnList)
                 role = discord.utils.get(message.channel.guild.roles, name=warnList)
                 if role == None:
                     raise Exception('Invalid role name.')
@@ -164,7 +161,6 @@ async def on_message(message):
                 result = {}
                 for i in results:
                     result = i
-                print(result)
                 if result == {}:
                     embed=discord.Embed(title="**Case Details**", description="This case does not exist!", color=random.randint(0, 0xffffff))
                     await message.channel.send(embed=embed)
@@ -192,7 +188,7 @@ async def on_message(message):
                 warnList = int(warnList)
                 if warnList < 1001:
                     deleted = await message.channel.purge(limit=warnList+1)
-                    await automodPost(message, "**Message purge executed in <#"+str(message.channel.id)+">**\nResponsible moderator: <@"+str(message.author.id)+">\nMessages deleted: "+str(len(deleted)-1))
+                    await automodPost(message.channel.guild, "**Message purge executed in <#"+str(message.channel.id)+">**\nResponsible moderator: <@"+str(message.author.id)+">\nMessages deleted: "+str(len(deleted)-1))
                     await asyncio.sleep(2)
                 else:
                     delmes = await message.channel.send("Event Horizon cannot purge more than 1,000 messages per command.")
@@ -409,7 +405,6 @@ async def on_message(message):
                 result = {}
                 for i in results:
                     result = i
-                print(result)
                 if 'join-age' in result:
                     if result['join-age'] == 0:
                         embed = discord.Embed(title="Server Join Age", description=str(message.channel.guild.name)+" does not currently have a minimum join age. To set one, use `h!setjoinage`.", color=random.randint(0, 0xffffff))
@@ -424,6 +419,121 @@ async def on_message(message):
                                           color=random.randint(0, 0xffffff))
                     await message.channel.send(embed=embed)
 
+
+            else:
+                await message.channel.send("You do not have the proper permissions to execute this command.")
+        if message.content == "h!vcroles":
+            if checkModRoles(message=message) == True:
+                preferences = cluster["preferences"]
+                if str(message.channel.guild.id) not in preferences.list_collection_names():
+                    id = round((datetime.now(timezone.utc) + timedelta(
+                        days=0)).timestamp() * 1000000 - 1593028107000000)
+                    tempBans = preferences[str(message.channel.guild.id)]
+                    tempBans.insert_one({"_id": id, "admin-roles": [], 'vc-roles': {}})
+                tempBans = preferences[str(message.channel.guild.id)]
+                results = tempBans.find({})
+                for i in results:
+                    result = i
+                if 'vc-roles' in result:
+                    vcRoles = result['vc-roles']
+                else:
+                    vcRoles = {}
+                roles = {}
+                for i in vcRoles:
+                    if len(vcRoles[i]) > 0:
+                        roles[i] = vcRoles[i]
+                print(roles)
+                roless = []
+                channels = []
+                for i in roles:
+                    channels.append(client.get_channel(int(i)).id)
+                for i in roles:
+                    roless.append(roles[i])
+                print(channels)
+                print(roless)
+                channelValue = ""
+                roleValue = ""
+                for i in channels:
+                    channelf = client.get_channel(int(i))
+                    channelValue = channelValue + str(channelf.name) + "\n"
+                for i in roless:
+                    lenner = 0
+                    for g in i:
+                        lenner += 1
+                        role = discord.utils.get(message.channel.guild.roles, id=int(g))
+                        if lenner == len(i):
+                            roleValue = roleValue + str(role.name)
+                        else:
+                            roleValue = roleValue + str(role.name) + ", "
+                    roleValue = roleValue + "\n"
+                if channelValue == "" and roleValue == "":
+                    embed = discord.Embed(title="**VC Roles**",
+                                          description="You have no VC roles.\n\nTo add a VC role, join the specified voice channel and use `h!vcrole <role name>`.",
+                                          color=random.randint(0, 0xffffff))
+                    await message.channel.send(embed=embed)
+                    return
+                embed = discord.Embed(title="**VC Roles**", description="To remove a VC role, join the specified voice channel and use `h!vcrole <role name>`.", color=random.randint(0,0xffffff))
+                embed.add_field(name="Channels", value=channelValue, inline=True)
+                embed.add_field(name="Roles", value=roleValue, inline=True)
+                await message.channel.send(embed=embed)
+
+
+
+
+            else:
+                await message.channel.send("You do not have the proper permissions to execute this command.")
+        if message.content == "h!vcrole":
+            await message.channel.send("**Moderator Command** `Usage: h!vcrole <role name to add or remove>`\n- Gives the specified role to anyone who joins the voice channel moderator is in. Also takes the role when user leaves. To remove an already existing VC role, just run the command as is. To get a list of VC roles, use `h!vcroles`.")
+        elif message.content.startswith("h!vcrole "):
+            if checkModRoles(message=message) == True:
+                param, warnList = message.content.split("h!vcrole ", 1)
+                if message.author.voice == None:
+                    raise Exception("You must be in a voice channel.")
+                else:
+                    vc = message.author.voice.channel.id
+                    channels = []
+                    for channelz in message.guild.channels:
+                        channels.append(channelz.id)
+                    if vc not in channels:
+                        raise Exception("You cannot control a VC role for a VC that is not in your server.")
+                    role = discord.utils.get(message.channel.guild.roles, name=str(warnList))
+                    if role == None:
+                        raise Exception("That role does not exist in this server. Input must be case-sensitive.")
+                    else:
+                        preferences = cluster["preferences"]
+                        if str(message.channel.guild.id) not in preferences.list_collection_names():
+                            id = round((datetime.now(timezone.utc) + timedelta(
+                                days=0)).timestamp() * 1000000 - 1593028107000000)
+                            tempBans = preferences[str(message.channel.guild.id)]
+                            tempBans.insert_one({"_id": id, "admin-roles": [], 'vc-roles': {}})
+                        tempBans = preferences[str(message.channel.guild.id)]
+                        results = tempBans.find({})
+                        for i in results:
+                            result = i
+                        if 'vc-roles' in result:
+                            vcRoles = result['vc-roles']
+                        else:
+                            vcRoles = {}
+                        if str(vc) not in vcRoles:
+                            vcRoles[str(vc)] = []
+                        if str(role.id) in vcRoles[str(vc)]:
+                            vcRoles[str(vc)].remove(str(role.id))
+                            embed = discord.Embed(title="**VC Role**", description="Users who join **" + str(
+                                message.author.voice.channel.name) + "** voice channel will no longer get the **" + str(
+                                role.name) + "** role.", color=random.randint(0, 0xffffff))
+                            try:
+                                await message.author.remove_roles(role)
+                            except:
+                                pass
+
+                        else:
+                            vcRoles[str(vc)].append(str(role.id))
+                            embed = discord.Embed(title="**VC Role**", description="Users who join **" + str(
+                                message.author.voice.channel.name) + "** voice channel will now get the **" + str(
+                                role.name) + "** role.", color=random.randint(0, 0xffffff))
+
+                        tempBans.update_one({}, {"$set": {"vc-roles":vcRoles}})
+                        await message.channel.send(embed=embed)
 
             else:
                 await message.channel.send("You do not have the proper permissions to execute this command.")
@@ -882,31 +992,87 @@ async def on_message(message):
 
 @client.event
 async def on_member_join(member):
+    try:
+        preferences = cluster["preferences"]
+        serverID = preferences[str(member.guild.id)]
+        resultList = []
+        results = serverID.find({})
+        for result in results:
+            resultList = result
+        if 'join-age' in resultList:
+            joinAge = resultList['join-age']
+            id = round((datetime.now(timezone.utc) + timedelta(days=0)).timestamp())
+            if (id - member.created_at.timestamp())/86400 > joinAge:
+                try:
+                    embed=discord.Embed(title="Kicked from **"+str(member.guild.name)+"**", description="**"+str(member.guild.name)+"** is protected by Event Horizon. Your account is not old enough to be in this server. As a result, you have been kicked. Thank you for understanding.", color=0xff0000)
+                    await member.send(embed=embed)
+                except:
+                    pass
+                await member.guild.kick(member)
+                preferences = cluster["preferences"]
+                preference = preferences[str(member.guild.id)]
+                j = ""
+                results = preference.find({"mod-channel": {"$exists": False}})
+                if results.count() == 0:
+                    results = preference.find({})
+                    for m in results:
+                        j = m
+                        modchannel = int(j['mod-channel'])
+                    modchannel = client.get_channel(modchannel)
+                    embed = discord.Embed(title="Automod", description=str(member)+" was kicked for being too young!", color=random.randint(0, 0xffffff))
+                    await modchannel.send(embed=embed)
+    except:
+        pass
+
+@client.event
+async def on_voice_state_update(member, before, after):
+    beforec = before.channel
+    afterc = after.channel
     preferences = cluster["preferences"]
     serverID = preferences[str(member.guild.id)]
     resultList = []
     results = serverID.find({})
     for result in results:
         resultList = result
-    if 'join-age' in resultList:
-        joinAge = resultList['join-age']
-        id = round((datetime.now(timezone.utc) + timedelta(days=0)).timestamp())
-        if (id - member.created_at.timestamp())/86400 < joinAge:
-            try:
-                embed=discord.Embed(title="Kicked from **"+str(member.guild.name)+"**", description="**"+str(member.guild.name)+"** is protected by Event Horizon. Your account is not old enough to be in this server. As a result, you have been kicked. Thank you for understanding.", color=0xff0000)
-                await member.send(embed=embed)
-            except:
-                pass
-            await member.guild.kick(member)
-
-
-
-
-
-
-
-
-
+    if 'vc-roles' in resultList:
+        vcRoles = resultList['vc-roles']
+        print(vcRoles)
+        for i in vcRoles:
+            if before.channel == None:
+                if str(after.channel.id) == i:
+                    roles = vcRoles[str(after.channel.id)]
+                    for i in roles:
+                        role = discord.utils.get(member.guild.roles, id=int(i))
+                        try:
+                            await member.add_roles(role)
+                        except:
+                            pass
+            elif after.channel == None:
+                if str(before.channel.id) == i:
+                    roles = vcRoles[str(before.channel.id)]
+                    for i in roles:
+                        role = discord.utils.get(member.guild.roles, id=int(i))
+                        try:
+                            await member.remove_roles(role)
+                        except:
+                            pass
+            else:
+                if str(before.channel.id) == i and str(after.channel.id) != i:
+                    roles = vcRoles[str(before.channel.id)]
+                    for i in roles:
+                        role = discord.utils.get(member.guild.roles, id=int(i))
+                        try:
+                            await member.remove_roles(role)
+                        except:
+                            pass
+                if str(before.channel.id) != i and str(after.channel.id) == i:
+                    roles = vcRoles[str(after.channel.id)]
+                    for i in roles:
+                        role = discord.utils.get(member.guild.roles, id=int(i))
+                        try:
+                            await member.add_roles(role)
+                        except:
+                            pass
 
 @client.event
 async def on_guild_join(guild):

@@ -267,7 +267,7 @@ async def on_message(message):
             embed = discord.Embed(title="**Commands**", description="To view a full list of commands, visit Event Horizon's website.\nhttps://eddyzhao828.wixsite.com/event-horizon/",color=random.randint(0, 0xffffff))
             await message.author.send(embed=embed)
         if message.content == "h!changelog":
-            embed=discord.Embed(title="**Changelog**", description="v1.0.1 Changelog (6/26/2020)\n\n**New commands added in this release:**\nh!joinage, h!setjoinage, h!vcrole, h!vcroles.")
+            embed=discord.Embed(title="**Changelog**", description="v1.0.2 Changelog (6/28/2020)\n\n**New commands added in this release:**\nh!vcrole, h!vcroles.")
             await message.channel.send(embed=embed)
         if message.content == "h!membercount":
             guild = message.channel.guild

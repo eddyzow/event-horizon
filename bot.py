@@ -268,7 +268,7 @@ async def on_message(message):
             await message.channel.send("Help support the development and running of Event Horizon. Patreon: https://www.patreon.com/eddyzow")
         if message.content == "h!help":
             await message.add_reaction("👍")
-            embed = discord.Embed(title="**Commands**", description="To view a full list of commands, visit Event Horizon's website.\nhttps://eddyzhao828.wixsite.com/event-horizon/",color=random.randint(0, 0xffffff))",color=random.randint(0, 0xffffff))
+            embed = discord.Embed(title="**Commands**", description="""To view a full list of commands, visit Event Horizon's website.\nhttps://eddyzhao828.wixsite.com/event-horizon/""",color=random.randint(0, 0xffffff))",color=random.randint(0, 0xffffff))
             await message.author.send(embed=embed)
         if message.content == "h!changelog":
             embed=discord.Embed(title="**Changelog**", description="v1.0.1 Changelog (6/26/2020)\n\n**New commands added in this release:**\nh!joinage, h!setjoinage")

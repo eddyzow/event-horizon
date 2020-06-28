@@ -10,7 +10,6 @@ db = cluster["cases"]
 adminarray = []
 unixTime = round((datetime.now(timezone.utc) + timedelta(days=0)).timestamp())
 
-# Min. Join Age
 # Support/Ticket System
 # Automod (Mention spam, discord invites)
 # Remind me
@@ -269,13 +268,10 @@ async def on_message(message):
             await message.channel.send("Help support the development and running of Event Horizon. Patreon: https://www.patreon.com/eddyzow")
         if message.content == "h!help":
             await message.add_reaction("👍")
-            embed = discord.Embed(title="**Commands**", description="To view a full list of commands, visit Event Horizon's website.\nhttps://eddyzhao828.wixsite.com/event-horizon/",color=random.randint(0, 0xffffff))
+            embed = discord.Embed(title="**Commands**", description="To view a full list of commands, visit Event Horizon's website.\nhttps://eddyzhao828.wixsite.com/event-horizon/",color=random.randint(0, 0xffffff))",color=random.randint(0, 0xffffff))
             await message.author.send(embed=embed)
         if message.content == "h!changelog":
-            embed=discord.Embed(title="**Changelog**", description="v1.0.0 Changelog (6/26/2020)\n\n**Initial deployment. New commands added in this release:**"
-                                                                   "\nh!warn, h!tempmute, h!mute, h!tempban, h!ban, h!unban, h!kick, h!unmute, h!warnings, h!purge, h!lock, h!unlock, h!modlogs, h!modroles, h!case, h!modchannel,"
-                                                                   "h!donate, h!uptime, h!membercount, h!poll, and h!changelog.\n\n**Commands expected to release in next release:**"
-                                                                   "\nh!joinage, h!new, h!close, h!add, h!remove, various support ticket settings and commands, h!remindme, h!automod, h!reactionrole, h!vcrole, h!google, and h!image.")
+            embed=discord.Embed(title="**Changelog**", description="v1.0.1 Changelog (6/26/2020)\n\n**New commands added in this release:**\nh!joinage, h!setjoinage")
             await message.channel.send(embed=embed)
         if message.content == "h!membercount":
             guild = message.channel.guild
@@ -398,6 +394,65 @@ async def on_message(message):
                         await message.channel.send(embed=embed)
                     except:
                         pass
+            else:
+                await message.channel.send("You do not have the proper permissions to execute this command.")
+        if message.content == "h!joinage":
+            if checkModRoles(message=message) == True:
+                preferences = cluster["preferences"]
+                if str(message.channel.guild.id) not in preferences.list_collection_names():
+                    id = round((datetime.now(timezone.utc) + timedelta(
+                        days=0)).timestamp() * 1000000 - 1593028107000000)
+                    tempBans = preferences[str(message.channel.guild.id)]
+                    tempBans.insert_one({"_id": id, "admin-roles": []})
+                tempBans = preferences[str(message.channel.guild.id)]
+                results = tempBans.find({})
+                result = {}
+                for i in results:
+                    result = i
+                print(result)
+                if 'join-age' in result:
+                    if result['join-age'] == 0:
+                        embed = discord.Embed(title="Server Join Age", description=str(message.channel.guild.name)+" does not currently have a minimum join age. To set one, use `h!setjoinage`.", color=random.randint(0, 0xffffff))
+                        await message.channel.send(embed=embed)
+
+                    else:
+                        embed = discord.Embed(title="Server Join Age", description=str(message.channel.guild.name)+"'s minimum join age is currently set to **"+str(result['join-age'])+" days**.", color=random.randint(0, 0xffffff))
+                        await message.channel.send(embed=embed)
+                else:
+                    embed = discord.Embed(title="Server Join Age", description=str(
+                        message.channel.guild.name) + " does not currently have a minimum join age. To set one, use `h!setjoinage`.",
+                                          color=random.randint(0, 0xffffff))
+                    await message.channel.send(embed=embed)
+
+
+            else:
+                await message.channel.send("You do not have the proper permissions to execute this command.")
+        if message.content == "h!setjoinage":
+            await message.channel.send("**Moderator Command** `Usage: h!setjoinage <number of days>`\n- Sets the minimum account age to enter the server. Useful for defending against alt accounts. To turn minimum join age off, set the join age to 0. To view your server's join age, use `h!joinage`.")
+        elif message.content.startswith("h!setjoinage "):
+            if checkModRoles(message=message) == True:
+                param, warnList = message.content.split("h!setjoinage ", 1)
+                warnList = int(warnList)
+                if warnList < 0:
+                    raise Exception("You can't set joinage to under 0 days.")
+                if warnList > 365:
+                    raise Exception("You can't set joinage to over 365 days.")
+                preferences = cluster["preferences"]
+                serverID = preferences[str(message.channel.guild.id)]
+                if str(message.channel.guild.id) in preferences.list_collection_names():
+                    tempBans = preferences[str(message.channel.guild.id)]
+                    tempBans.update_one({}, {"$set": {"join-age": warnList}})
+                else:
+                    id = round((datetime.now(timezone.utc) + timedelta(
+                        days=0)).timestamp() * 1000000 - 1593028107000000)
+                    tempBans = preferences[str(message.channel.guild.id)]
+                    tempBans.insert_one({"_id": id, "admin-roles": [], "join-age": warnList})
+                if warnList == 0:
+                    embed = discord.Embed(title="**Set Joinage**", description=str(message.channel.guild.name)+"'s minimum join age has been turned off.", color=random.randint(0, 0xffffff))
+
+                else:
+                    embed = discord.Embed(title="**Set Joinage**", description=str(message.channel.guild.name)+"'s minimum join age has been set to **"+str(warnList)+" days**.", color=random.randint(0, 0xffffff))
+                await message.channel.send(embed=embed)
             else:
                 await message.channel.send("You do not have the proper permissions to execute this command.")
         if message.content == "h!poll":
@@ -823,6 +878,36 @@ async def on_message(message):
             await message.channel.send("An error occurred! "+str(exceptz)+" For the correct usage, simply type a command without any parameters.")
         except:
             pass
+
+
+@client.event
+async def on_member_join(member):
+    preferences = cluster["preferences"]
+    serverID = preferences[str(member.guild.id)]
+    resultList = []
+    results = serverID.find({})
+    for result in results:
+        resultList = result
+    if 'join-age' in resultList:
+        joinAge = resultList['join-age']
+        id = round((datetime.now(timezone.utc) + timedelta(days=0)).timestamp())
+        if (id - member.created_at.timestamp())/86400 < joinAge:
+            try:
+                embed=discord.Embed(title="Kicked from **"+str(member.guild.name)+"**", description="**"+str(member.guild.name)+"** is protected by Event Horizon. Your account is not old enough to be in this server. As a result, you have been kicked. Thank you for understanding.", color=0xff0000)
+                await member.send(embed=embed)
+            except:
+                pass
+            await member.guild.kick(member)
+
+
+
+
+
+
+
+
+
+
 @client.event
 async def on_guild_join(guild):
     if len(guild.channels) > 0:
@@ -837,6 +922,7 @@ async def on_guild_join(guild):
             except:
                 teste+=1
                 pass
+
 
 @client.event
 async def on_ready():

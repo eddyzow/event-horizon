@@ -153,6 +153,7 @@ async def on_message(message):
                 "**Moderator Command** `Usage: h!case <number>`\n- Gives information about a specified case.")
         elif message.content.startswith("h!case"):
             if checkModRoles(message=message) == True:
+                await message.channel.trigger_typing()
                 param, warnList = message.content.split("h!case ", 1)
                 warnList = int(warnList)
                 db = cluster["cases"]
@@ -196,6 +197,7 @@ async def on_message(message):
                     await delmes.delete()
         if message.content == "h!modchannel":
             if checkModRoles(message=message) == True:
+                await message.channel.trigger_typing()
                 preferences = cluster["preferences"]
                 tempBans = preferences[str(message.channel.guild.id)]
                 z = ""
@@ -222,6 +224,7 @@ async def on_message(message):
                 await message.channel.send("You do not have the proper permissions to execute this command.")
         elif message.content.startswith("h!modchannel "):
             if checkModRoles(message=message) == True:
+                await message.channel.trigger_typing()
                 param, logList = message.content.split("h!modchannel ", 1)
                 preferences = cluster["preferences"]
                 tempBans = preferences[str(message.channel.guild.id)]
@@ -276,6 +279,7 @@ async def on_message(message):
             await message.author.send("**To invite Event Horizon to your Discord server, use this link!**\nhttps://discord.com/oauth2/authorize?client_id=725212443361673256&scope=bot&permissions=8")
         if message.content == "h!modroles":
             if checkModRoles(message=message) == True:
+                await message.channel.trigger_typing()
                 preferences = cluster["preferences"]
                 tempBans = preferences[str(message.channel.guild.id)]
                 results = tempBans.find({})
@@ -301,6 +305,7 @@ async def on_message(message):
                 await message.channel.send("You do not have the proper permissions to execute this command.")
         elif message.content.startswith("h!modroles"):
             if checkModRoles(message=message) == True:
+                await message.channel.trigger_typing()
                 param, warnList = message.content.split("h!modroles ", 1)
                 roleList = []
                 for rolee in message.channel.guild.roles:
@@ -343,6 +348,7 @@ async def on_message(message):
         if message.content == "h!warn":
             await message.channel.send("**Moderator Command** `Usage: h!warn <@user> <reason>`\n- Warns specified user.")
         elif message.content == "h!warnings":
+            await message.channel.trigger_typing()
             db = cluster["cases"]
             collection = db[str(message.channel.guild.id)]
             results = collection.find({'case-type': "warn", 'user': str(message.author.id)})
@@ -358,6 +364,7 @@ async def on_message(message):
             await message.channel.send(embed=embed)
         elif message.content.startswith("h!warn"):
             if checkModRoles(message=message) == True:
+                await message.channel.trigger_typing()
                 param, warnList = message.content.split("h!warn ", 1)
                 warnList = (warnList.split(" ", 1))
                 reason = warnList[1]
@@ -394,6 +401,7 @@ async def on_message(message):
                 await message.channel.send("You do not have the proper permissions to execute this command.")
         if message.content == "h!joinage":
             if checkModRoles(message=message) == True:
+                await message.channel.trigger_typing()
                 preferences = cluster["preferences"]
                 if str(message.channel.guild.id) not in preferences.list_collection_names():
                     id = round((datetime.now(timezone.utc) + timedelta(
@@ -424,6 +432,7 @@ async def on_message(message):
                 await message.channel.send("You do not have the proper permissions to execute this command.")
         if message.content == "h!vcroles":
             if checkModRoles(message=message) == True:
+                await message.channel.trigger_typing()
                 preferences = cluster["preferences"]
                 if str(message.channel.guild.id) not in preferences.list_collection_names():
                     id = round((datetime.now(timezone.utc) + timedelta(
@@ -486,6 +495,7 @@ async def on_message(message):
             await message.channel.send("**Moderator Command** `Usage: h!vcrole <role name to add or remove>`\n- Gives the specified role to anyone who joins the voice channel moderator is in. Also takes the role when user leaves. To remove an already existing VC role, just run the command as is. To get a list of VC roles, use `h!vcroles`.")
         elif message.content.startswith("h!vcrole "):
             if checkModRoles(message=message) == True:
+                await message.channel.trigger_typing()
                 param, warnList = message.content.split("h!vcrole ", 1)
                 if message.author.voice == None:
                     raise Exception("You must be in a voice channel.")
@@ -541,6 +551,7 @@ async def on_message(message):
             await message.channel.send("**Moderator Command** `Usage: h!setjoinage <number of days>`\n- Sets the minimum account age to enter the server. Useful for defending against alt accounts. To turn minimum join age off, set the join age to 0. To view your server's join age, use `h!joinage`.")
         elif message.content.startswith("h!setjoinage "):
             if checkModRoles(message=message) == True:
+                await message.channel.trigger_typing()
                 param, warnList = message.content.split("h!setjoinage ", 1)
                 warnList = int(warnList)
                 if warnList < 0:
@@ -578,6 +589,7 @@ async def on_message(message):
             await message.channel.send("**Moderator Command** `Usage: h!ban <@user> <reason>`\n- Bans specified user from the server command is executed in. To temp-ban someone, see `h!tempban`.")
         elif message.content.startswith("h!ban"):
             if checkModRoles(message=message) == True:
+                await message.channel.trigger_typing()
                 param, warnList = message.content.split("h!ban ", 1)
                 warnList = (warnList.split(" ", 1))
                 try:
@@ -619,6 +631,7 @@ async def on_message(message):
             await message.channel.send("**Moderator Command** `Usage: h!kick <@user> <reason>`\n- Kicks specified user from the server command is executed in.")
         elif message.content.startswith("h!kick"):
             if checkModRoles(message=message) == True:
+                await message.channel.trigger_typing()
                 param, warnList = message.content.split("h!kick ", 1)
                 warnList = (warnList.split(" ", 1))
                 try:
@@ -660,6 +673,7 @@ async def on_message(message):
             await message.channel.send("**Moderator Command** `Usage: h!unmute <@user>`\n- Unmutes specified user from the server command is executed in.")
         elif message.content.startswith("h!unmute "):
             if checkModRoles(message=message) == True:
+                await message.channel.trigger_typing()
                 param, logList = message.content.split("h!unmute ", 1)
                 logList = (logList.split(" ", 1))
                 logList = logList[0].replace("<", "")
@@ -691,6 +705,7 @@ async def on_message(message):
                 "**Moderator Command** `Usage: h!unban <@user>`\n- Unbans specified user from the server command is executed in.")
         elif message.content.startswith("h!unban "):
             if checkModRoles(message=message) == True:
+                await message.channel.trigger_typing()
                 param, logList = message.content.split("h!unban ", 1)
                 logList = (logList.split(" ", 1))
                 logList = logList[0].replace("<", "")
@@ -726,6 +741,7 @@ async def on_message(message):
 
         elif message.content.startswith("h!modlogs "):
             if checkModRoles(message=message) == True:
+                await message.channel.trigger_typing()
                 param, logList = message.content.split("h!modlogs ", 1)
                 logList = (logList.split(" ", 1))
                 logList = logList[0].replace("<", "")
@@ -758,6 +774,7 @@ async def on_message(message):
             await message.channel.send("**Moderator Command** `Usage: h!tempban <@user> <time> <reason>`\n- Temporarily bans specified user from the server command is executed in. For time, use a number followed by suffix s, m, h, or d, meaning second, minute, hour, and day. Tempbans are limited to 30 days.")
         elif message.content.startswith("h!tempban"):
             if checkModRoles(message=message) == True:
+                await message.channel.trigger_typing()
                 param, warnList = message.content.split("h!tempban ", 3)
                 warnList = (warnList.split(" ", 2))
                 time = warnList[1]
@@ -821,6 +838,7 @@ async def on_message(message):
             await message.channel.send("**Moderator Command** `Usage: h!tempmute <@user> <time> <reason>`\n- Temporarily mutes specified user from chatting in the server command is executed in. For time, use a number followed by suffix s, m, h, or d, meaning second, minute, hour, and day. Tempmutes are limited to 30 days. If a Muted role does not exist in the server, Event Horizon will create one.")
         elif message.content.startswith("h!tempmute"):
             if checkModRoles(message=message) == True:
+                await message.channel.trigger_typing()
                 param, warnList = message.content.split("h!tempmute ", 3)
                 warnList = (warnList.split(" ", 2))
                 time = warnList[1]
@@ -917,6 +935,7 @@ async def on_message(message):
             await message.channel.send("**Moderator Command** `Usage: h!mute <@user> <reason>`\n- Mutes specified user from the server command is executed in. To temp-mute someone, see `h!tempmute`.")
         elif message.content.startswith("h!mute"):
             if checkModRoles(message=message) == True:
+                await message.channel.trigger_typing()
                 param, warnList = message.content.split("h!mute ", 1)
                 warnList = (warnList.split(" ", 1))
                 try:

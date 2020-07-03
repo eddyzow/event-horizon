@@ -1021,7 +1021,7 @@ async def on_member_join(member):
         if 'join-age' in resultList:
             joinAge = resultList['join-age']
             id = round((datetime.now(timezone.utc) + timedelta(days=0)).timestamp())
-            if (id - member.created_at.timestamp())/86400 > joinAge:
+            if (id - member.created_at.timestamp())/86400 < joinAge:
                 try:
                     embed=discord.Embed(title="Kicked from **"+str(member.guild.name)+"**", description="**"+str(member.guild.name)+"** is protected by Event Horizon. Your account is not old enough to be in this server. As a result, you have been kicked. Thank you for understanding.", color=0xff0000)
                     await member.send(embed=embed)

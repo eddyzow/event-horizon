@@ -1,4 +1,4 @@
 # Event Horizon
 Discord bot with many features.
 
-Documentation will be added as the bot is developed.
+Documentation can be found at https://eddyzhao828.wixsite.com/event-horizon

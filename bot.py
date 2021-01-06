@@ -691,12 +691,12 @@ async def on_message(message):
                         await message.channel.send(embed=embed)
                     else:
                         embed = discord.Embed(title="\❌ **" + str(
-                            pingUser) + " couldn't be unmuted.**", description="Maybe they are not muted after all!",
+                            pingUser) + " couldn't be unmuted.**", description="We couldn't find a Muted role on this user.",
                                               color=random.randint(0, 0xffffff))
                         await message.channel.send(embed=embed)
                 except:
                     embed = discord.Embed(title="\❌ **" + str(
-                        pingUser) + " couldn't be unmuted.**", description="Maybe they are not muted after all!", color=random.randint(0, 0xffffff))
+                        pingUser) + " couldn't be unmuted.**", description="Check their roles to make sure they don't have the Muted role.", color=random.randint(0, 0xffffff))
                     await message.channel.send(embed=embed)
             else:
                 await message.channel.send("You do not have the proper permissions to execute this command.")

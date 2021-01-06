@@ -682,6 +682,7 @@ async def on_message(message):
                 logList = logList.replace(">", "")
                 pingUser = client.get_user(int(logList))
                 pingMember = message.channel.guild.get_member(int(logList))
+                time.sleep(1)
                 try:
                     role = discord.utils.get(message.channel.guild.roles, name='Muted')
                     if role in pingMember.roles:
@@ -865,6 +866,7 @@ async def on_message(message):
                 pingUser = client.get_user(int(user))
                 pingMember = message.guild.get_member(int(user))
                 role = discord.utils.get(message.channel.guild.roles, name='Muted')
+                time.sleep(1)
                 if role not in pingMember.roles:
                     db = cluster["cases"]
                     collectione = db[str(message.channel.guild.id)]

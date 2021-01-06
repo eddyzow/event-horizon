@@ -97,6 +97,22 @@ async def on_message(message):
                 role = discord.utils.get(guild.roles, name='Muted')
                 await user.remove_roles(role)
                 tempMutes.delete_one(i)
+                
+        if message.content == "h!leave":
+            if checkModRoles(message=message) == True or message.author.id == 237003264963379200:
+                leavemes = await message.channel.send("Leave this server? React with 👍 and Event Horizon will leave.")
+                def check(reaction, user):
+                    return user == message.author and str(reaction.emoji) == '👍'
+                try:
+                    reaction, user = await client.wait_for('reaction_add', timeout=30.0, check=check)
+                except asyncio.TimeoutError:
+                    await message.channel.send("Action canceled")
+                else:
+                    await channel.send('Thanks for using Event Horizon.')
+                    await message.channel.guild.leave()
+            else:
+                await message.channel.send("You do not have the proper permissions to execute this command.")   
+
         if message.content == "h!lock":
             if checkModRoles(message=message) == True:
                 bole = message.channel.guild.default_role

@@ -108,7 +108,7 @@ async def on_message(message):
                 except asyncio.TimeoutError:
                     await message.channel.send("Action canceled")
                 else:
-                    await channel.send('Thanks for using Event Horizon.')
+                    await message.channel.send('Thanks for using Event Horizon.')
                     await message.channel.guild.leave()
             else:
                 await message.channel.send("You do not have the proper permissions to execute this command.")   

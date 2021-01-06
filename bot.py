@@ -669,7 +669,7 @@ async def on_message(message):
                     await message.channel.send(embed=embed)
             else:
                 await message.channel.send("You do not have the proper permissions to execute this command.")
-        if message.content == "h!unmute":
+        if message.content == "h!":
             await message.channel.send("**Moderator Command** `Usage: h!unmute <@user>`\n- Unmutes specified user from the server command is executed in.")
         elif message.content.startswith("h!unmute "):
             if checkModRoles(message=message) == True:
@@ -691,13 +691,12 @@ async def on_message(message):
                         await message.channel.send(embed=embed)
                     else:
                         embed = discord.Embed(title="\❌ **" + str(
-                            pingUser) + " couldn't be unmuted.**", description="We couldn't find a Muted role on this user.",
-                                              color=random.randint(0, 0xffffff))
-                        await message.channel.send(embed=embed)
-                except:
-                    embed = discord.Embed(title="\❌ **" + str(
-                        pingUser) + " couldn't be unmuted.**", description="Check their roles to make sure they don't have the Muted role.", color=random.randint(0, 0xffffff))
-                    await message.channel.send(embed=embed)
+                            pingUser) + "  be unmuted
+                except Exception as exceptz:
+                    try:
+                        await message.channel.send("An error occurred! "+str(exceptz)+" For the correct usage, simply type a command without any parameters.")
+                    except:
+                        pass
             else:
                 await message.channel.send("You do not have the proper permissions to execute this command.")
         if message.content == "h!unban":

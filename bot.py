@@ -691,7 +691,8 @@ async def on_message(message):
                         await message.channel.send(embed=embed)
                     else:
                         embed = discord.Embed(title="\❌ **" + str(
-                            pingUser) + "  be unmuted
+                        pingUser) + " couldn't be unmuted.**", description="Maybe they are not muted after all!", color=random.randint(0, 0xffffff))
+                        await message.channel.send(embed=embed)
                 except Exception as exceptz:
                     try:
                         await message.channel.send("An error occurred! "+str(exceptz)+" For the correct usage, simply type a command without any parameters.")
